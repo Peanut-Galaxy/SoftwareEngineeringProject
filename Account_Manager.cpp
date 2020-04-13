@@ -109,7 +109,7 @@ void intro(); //introductory screen function
 
 void write_account()
 {
-account ac;
+Account ac;
 ofstream outFile;
 outFile.open("account.dat",ios::binary|ios::app);
 ac.create_account();
@@ -119,7 +119,7 @@ outFile.close();
 
 void display_sp(int n)
 {
-account ac;
+Account ac;
 bool flag = false;
 ifstream inFile;
 inFile.open("account.dat",ios::binary);
@@ -148,7 +148,7 @@ if(flag == false)
 void modify_account(int n)
 {
 bool found = false;
-account ac;
+Account ac;
 fstream File;
     File.open("account.dat",ios::binary|ios::in|ios::out);
 
@@ -181,7 +181,7 @@ if(found == false)
 
 void delete_account(int n)
 {
-account ac;
+Account ac;
 ifstream inFile;
 ofstream outFile;
 inFile.open("account.dat",ios::binary);
@@ -210,7 +210,7 @@ cout << "\n\n\tRecord Deleted...";
 
 void display_all()
 {
-account ac;
+Account ac;
 ifstream inFile;
 inFile.open("account.dat",ios::binary);
 
@@ -235,7 +235,7 @@ void deposit_withdraw(int n, int option)
 {
 int amt;
 bool found = false;
-account ac;
+Account ac;
 fstream File;
 File.open("account.dat", ios::binary|ios::in|ios::out);
 
