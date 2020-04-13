@@ -1,4 +1,3 @@
-Here is my code contribution:
 // Account_Manager.cpp : Defines the entry point for the console application.
 //
 // MAIN is at the bottom
