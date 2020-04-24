@@ -113,7 +113,7 @@ Account ac;
 ofstream outFile;
 outFile.open("account.dat",ios::binary|ios::app);
 ac.create_account();
-outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
+outFile.write(reinterpret_cast<char *> (&ac), sizeof(Account));
 outFile.close();
 }
 
@@ -131,7 +131,7 @@ if(!inFile)
     }
     
 cout << "\nBALANCE DETAILS\n";
-while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))
+while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(Account)))
     {
     if(ac.retacno()==n)
         {
@@ -160,15 +160,15 @@ if(!File)
 
 while(!File.eof() && found==false)
     {
-    File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+    File.read(reinterpret_cast<char *> (&ac), sizeof(Account));
     if(ac.retacno()==n)
         {
         ac.show_account();
         cout << "\n\nEnter The New Details of account" << endl;
         ac.modify();
-        int pos = (-1)*static_cast<int>(sizeof(account));
+        int pos = (-1)*static_cast<int>(sizeof(Account));
         File.seekp(pos,ios::cur);
-        File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+        File.write(reinterpret_cast<char *> (&ac), sizeof(Account));
         cout << "\n\n\t Record Updated";
         found = true;
         }
@@ -195,10 +195,10 @@ if(!inFile)
 outFile.open("Temp.dat",ios::binary);
 inFile.seekg(0,ios::beg);
     
-while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))
+while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(Account)))
     {
     if(ac.retacno()!=n)
-        outFile.write(reinterpret_cast<char *> (&ac), sizeof(account));
+        outFile.write(reinterpret_cast<char *> (&ac), sizeof(Account));
     }
     
 inFile.close();
@@ -225,7 +225,7 @@ cout << "====================================================\n";
 cout << "A/c no.      NAME           Type  Balance\n";
 cout << "====================================================\n";
 
-while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(account)))
+while(inFile.read(reinterpret_cast<char *> (&ac), sizeof(Account)))
     ac.report();
     
 inFile.close();
@@ -247,7 +247,7 @@ if(!File)
     
 while(!File.eof() && found == false)
     {
-    File.read(reinterpret_cast<char *> (&ac), sizeof(account));
+    File.read(reinterpret_cast<char *> (&ac), sizeof(Account));
     if(ac.retacno() == n)
         {
         ac.show_account();
@@ -274,7 +274,7 @@ while(!File.eof() && found == false)
 
         int pos = (-1)*static_cast<int>(sizeof(ac));
         File.seekp(pos,ios::cur);
-        File.write(reinterpret_cast<char *> (&ac), sizeof(account));
+        File.write(reinterpret_cast<char *> (&ac), sizeof(Account));
         cout << "\n\n\t Record Updated";
         found = true;
         }
@@ -302,7 +302,7 @@ int num;
 intro();
 do
     {
-    system("cls");
+    //system("cls");
     cout << "\n\n\n\tMAIN MENU";
     cout << "\n\n\t01. NEW ACCOUNT";
     cout << "\n\n\t02. DEPOSIT AMOUNT";
@@ -314,7 +314,7 @@ do
     cout << "\n\n\t08. EXIT";
     cout << "\n\n\tSelect Your Option (1-8) ";
     cin >> ch;
-    system("cls");  // Windows
+    //system("cls");  // Windows
 
     switch(ch)
         {
@@ -356,6 +356,6 @@ do
         }
     cin.ignore();
     cin.get();
-    } while(ch! = '8');
+    } while(ch != '8');
 return 0;
 }
