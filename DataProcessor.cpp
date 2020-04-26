@@ -1,11 +1,17 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
+
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #include <stdlib.h>
 #include <functional>
 #include <unordered_map>
 #include <iterator>
+#include "csvScanner.yy.c"
 using namespace std;
 
 class HistoryBuffer //: public list
@@ -28,28 +34,27 @@ class FileData{
 
 class DataProcessor{
 	private:
-
-		unordered_map<int, int (*)(int, int&)> functionMap;
-		int testData;
+		unordered_map<int, int (*)(int, fileData&)> functionMap;
+		fileData data;
 		
 	public:
-		DataProcessor(unordered_map<int, int (*)(int, int&)> &inmap)
+		DataProcessor(unordered_map<int, int (*)(int, fileData&)> &inmap, fileData data)
 		{
 			functionMap = inmap;
-			testData = 5;
+			this->data = data;
 		}
 		
 		int Driver()
 		{
 			char clear[4] = {27,'[','2','J'};
 			char input[256];
-			std::unordered_map<int, int (*)(int, int&)>::iterator temp;
+			std::unordered_map<int, int (*)(int, fileData&)>::iterator temp;
 
 			do
 			{
 				for(auto i = functionMap.cbegin(); i != functionMap.cend(); i++)
 				{
-					i->second(1, testData);
+					i->second(1, data);
 				}
 				cout << "input something" << endl;
 				
@@ -69,7 +74,7 @@ class DataProcessor{
 				}
 				else
 				{
-				temp->second(0, testData);
+				temp->second(0, data);
 				}
 
 			}while(1);
@@ -78,13 +83,12 @@ class DataProcessor{
 				
 		}
 };
-int testFunction(int mode, int &input)
+int avg(int mode, fileData &input)
 {
 	const char menuButton = 'a';
 	if(mode == 0)
 	{
-		cout << "test complete, data = " << input << endl;
-		input--;
+
 	}
 	else if(mode == 1)
 	{
@@ -102,7 +106,9 @@ int dummyfunc(int test, int &input)
 		cout << "Press \"b\" for \"dummyfunc\"" << endl;
 	}
 	else
-		cout << -test << endl;	
+	{
+		
+	}
 }
 
 int stupidfunc(int test, int &input)
@@ -113,16 +119,20 @@ int stupidfunc(int test, int &input)
 }
 
 
-int dummyVal = 0;
+fileData dummyVal;
+
 
 int main()
 {
-	unordered_map<int, int (*)(int, int&)> test;
-	test.emplace(testFunction(2, dummyVal), testFunction);
+	fileData readCsv;
+	readCsv = csvScan("test.csv");
 	
-	std::unordered_map<int, int (*)(int, int&)>::iterator temp = test.find('a');
+	unordered_map<int, int (*)(int, fileData&)> functions;
+	functions.emplace(avg(2, dummyVal), avg);
 	
-	DataProcessor myTest(test);
+	std::unordered_map<int, int (*)(int, fileData&)>::iterator temp = functions.find('a');
+	
+	DataProcessor myTest(functions, readCsv);
 	myTest.Driver();
 	
 }
