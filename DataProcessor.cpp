@@ -124,7 +124,7 @@ fileData dummyVal;
 
 int main()
 {
-	fileData readCsv;
+	fileData *readCsv;
 	readCsv = csvScan("test.csv");
 	
 	unordered_map<int, int (*)(int, fileData&)> functions;
@@ -132,7 +132,7 @@ int main()
 	
 	std::unordered_map<int, int (*)(int, fileData&)>::iterator temp = functions.find('a');
 	
-	DataProcessor myTest(functions, readCsv);
+	DataProcessor myTest(functions, *readCsv);
 	myTest.Driver();
 	
 }
