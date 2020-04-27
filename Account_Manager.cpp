@@ -202,12 +202,13 @@ if(found == false)
 
 void intro()
 {
+char clear[4] =	{27,'[','2','J'};
+cout << clear;
 cout << "\n\n\n\t  ACCOUNT";
 cout << "\n\n\tMANAGEMENT";
 cout << "\n\n\t  SYSTEM";
 cout << "\n\n\n\nMADE BY : US";
-cout << "\n\nSCHOOL : Texas A&M University - Corpus Christi";
-cin.get();
+cout << "\n\nSCHOOL : Texas A&M University - Corpus Christi\n\n";
 }
 
 int main()
