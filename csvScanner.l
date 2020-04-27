@@ -23,8 +23,6 @@ char dataBuffer[bufferSize];
 
 
 %}
-
-
 DIGIT	[0-9]
 LETTER	[A-z]
 
@@ -129,7 +127,7 @@ LETTER	[A-z]
 <<EOF>> {
 		if(firstScan)
 		{
-			printf("Scan done\n%d collumns and %d rows\n\n", csvData.numCollumns, csvData.numRows);
+			printf("preliminary scan done\n%d collumns and %d rows\n\nSecond scan starting...\n", csvData.numCollumns, csvData.numRows);
 			afterTitles = false;
 			firstScan = false;
 			csvData.titleTokens = new char*[csvData.numCollumns];
@@ -157,21 +155,24 @@ LETTER	[A-z]
 %%
 
 
-fileData csvScan(char *filepath = NULL)
+fileData* csvScan(char *filepath = NULL)
 {
 	
 	if(filepath == NULL)
 	{
-		return csvData;
+		return NULL;
 	}
 	else
 	{
-		yyin = fopen(filepath, "r");
+		printf ("opening \"%s\"\n", filepath);
+		FILE *csv = fopen(filepath, "r");;
+		yyin = csv;
 		yylex();
 		//yyrestart(stdin);
-		yyin = fopen(filepath, "r");
+		yyin = csv;
 		yylex();
+		fclose(csv);
 	}
 	
-	return csvData;
+	return &csvData;
 }
